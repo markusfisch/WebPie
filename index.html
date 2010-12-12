@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>WebPie Demo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>WebPie Demo</h1>
+<p>Click anywhere to open the pie menu !</p>
+<script type="text/javascript" src="js/WebPieIcon.js"></script>
+<script type="text/javascript" src="js/WebPie.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+
+var p = new WebPie(
+	{
+		icons: [
+			new WebPieIcon(
+				"images/terminal.png",
+				function(){ alert( "Terminal" ); } ),
+			new WebPieIcon(
+				"images/editor.png",
+				function(){ alert( "Editor" ); } ),
+			new WebPieIcon(
+				"images/firefox.png",
+				function(){ alert( "Firefox" ); } ),
+			new WebPieIcon(
+				"images/thunderbird.png",
+				function(){ alert( "Thunderbird" ); } ),
+			new WebPieIcon(
+				"images/blender.png",
+				function(){ alert( "Blender" ); } ),
+			new WebPieIcon(
+				"images/inkscape.png",
+				function(){ alert( "Inkscape" ); } ),
+			new WebPieIcon(
+				"images/gimp.png",
+				function(){ alert( "Gimp" ); } ),
+			new WebPieIcon(
+				"images/openoffice.png",
+				function(){ alert( "OpenOffice" ); } ),
+			new WebPieIcon(
+				"images/feh.png",
+				function(){ alert( "Feh" ); } )
+			]
+	} );
+
+p.create();
+
+//]]>
+</script>
+</body>
+</html>
