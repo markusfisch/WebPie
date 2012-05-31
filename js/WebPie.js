@@ -206,8 +206,8 @@ WebPie.prototype.create = function( e )
  */
 WebPie.prototype.showHide = function( e )
 {
-	var w = this.webPie;
-	var b = 0;
+	var w = this.webPie,
+		b = 0;
 
 	if( !w )
 		return;
@@ -305,7 +305,7 @@ WebPie.prototype.hide = function()
 {
 	document.onmousemove = this.saveOnMouseMove;
 
-	for( var n = 0; n < this.icons.length; n++ )
+	for( var n = this.icons.length; n--; )
 		this.icons[n].hide();
 
 	clearTimeout( this.timerId );
@@ -364,8 +364,8 @@ WebPie.prototype.postShow = function( e )
  */
 WebPie.prototype.setCursor = function( e )
 {
-	var x = 0;
-	var y = 0;
+	var x = 0,
+		y = 0;
 
 	if( this.isOpera )
 	{
@@ -405,8 +405,8 @@ WebPie.prototype.setCursor = function( e )
  */
 WebPie.prototype.draw = function()
 {
-	var numberOfIcons = this.icons.length;
-	var closestIcon = 0;
+	var numberOfIcons = this.icons.length,
+		closestIcon = 0;
 
 	this.selectedIcon = -1;
 
@@ -415,25 +415,25 @@ WebPie.prototype.draw = function()
 
 	// calculate positions and sizes
 	{
-		var circumference = Math.PI*(this.radius<<1);
-		var pixelsPerRadian = this.radiansPerCircle/circumference;
-		var centeredY = this.y-this.centerY;
-		var centeredX = this.x-this.centerX;
-		var cursorAngle = Math.atan2( centeredY, centeredX );
-		var cellSize = this.radiansPerCircle/numberOfIcons;
-		var closestAngle = 0;
-		var weight = 0;
-		var maxIconSize = .8*this.radius;
-		var maxWeight;
+		var circumference = Math.PI*(this.radius<<1),
+			pixelsPerRadian = this.radiansPerCircle/circumference,
+			centeredY = this.y-this.centerY,
+			centeredX = this.x-this.centerX,
+			cursorAngle = Math.atan2( centeredY, centeredX ),
+			cellSize = this.radiansPerCircle/numberOfIcons,
+			closestAngle = 0,
+			weight = 0,
+			maxIconSize = .8*this.radius,
+			maxWeight;
 
 		// calculate weight of each icon
 		{
 			var cursorRadius = Math.sqrt(
-				(centeredY*centeredY)+
-				(centeredX*centeredX) );
-			var infieldRadius = this.radius>>1;
-			var cursorNearCenter = false;
-			var f = cursorRadius/infieldRadius;
+					(centeredY*centeredY)+
+					(centeredX*centeredX) ),
+				infieldRadius = this.radius>>1,
+				cursorNearCenter = false,
+				f = cursorRadius/infieldRadius;
 
 			if( cursorRadius < infieldRadius )
 			{
@@ -447,13 +447,13 @@ WebPie.prototype.draw = function()
 
 			// determine how close every icon is to the cursor
 			{
-				var closestDistance = this.radiansPerCircle;
-				var a = this.twist;
-				var m = (maxIconSize*pixelsPerRadian)/cellSize;
+				var closestDistance = this.radiansPerCircle,
+					a = this.twist,
+					m = (maxIconSize*pixelsPerRadian)/cellSize;
 
 				maxWeight = this.pi2+Math.pow( Math.PI, m );
 
-				for( var n = 0; n < numberOfIcons; n++ )
+				for( var n = 0; n < numberOfIcons; ++n )
 				{
 					var d = Math.abs(
 						this.getAngleDifference( a, cursorAngle ) );
@@ -507,12 +507,12 @@ WebPie.prototype.draw = function()
 		// calculate icon positions
 		{
 			var difference = this.getAngleDifference(
-				cursorAngle, closestAngle );
-			var angle = this.getValidAngle(
-				cursorAngle-
-					(pixelsPerRadian*
-						this.icons[closestIcon].cellSize)/cellSize*
-					difference );
+					cursorAngle, closestAngle ),
+				angle = this.getValidAngle(
+					cursorAngle-
+						(pixelsPerRadian*
+							this.icons[closestIcon].cellSize)/cellSize*
+						difference );
 
 			// active icon
 			this.icons[closestIcon].x =
@@ -528,14 +528,14 @@ WebPie.prototype.draw = function()
 
 			// calculate positions of all other icons
 			{
-				var leftAngle = angle;
-				var rightAngle = angle;
-				var left = closestIcon;
-				var right = closestIcon;
-				var previousRight = closestIcon;
-				var previousLeft = closestIcon;
+				var leftAngle = angle,
+					rightAngle = angle,
+					left = closestIcon,
+					right = closestIcon,
+					previousRight = closestIcon,
+					previousLeft = closestIcon;
 
-				for( var n = 0; ; n++ )
+				for( var n = 0; ; ++n )
 				{
 					if( (--left) < 0 )
 						left = numberOfIcons-1;
@@ -595,15 +595,17 @@ WebPie.prototype.draw = function()
 	}
 
 	// draw icons
-	for( var n = 0; n < numberOfIcons; n++ )
+	for( var n = numberOfIcons; n--; )
 	{
-		if( !this.icons[n].div.webPie )
+		var i = this.icons[n];
+
+		if( !i.div.webPie )
 		{
-			this.icons[n].div.webPie = this;
-			this.icons[n].div.onmouseup = this.showHide;
+			i.div.webPie = this;
+			i.div.onmouseup = this.showHide;
 		}
 
-		this.icons[n].draw();
+		i.draw();
 	}
 
 	// zoom and rotate into appearance
@@ -632,8 +634,8 @@ WebPie.prototype.draw = function()
  */
 WebPie.prototype.getAngleDifference = function( a, b )
 {
-	var c = a-b;
-	var d;
+	var c = a-b,
+		d;
 
 	if( a > b )
 		d = a-(b+this.radiansPerCircle);
