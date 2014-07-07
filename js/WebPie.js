@@ -11,7 +11,11 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/mit-license.php
  */
+
 "use strict";
+
+Math.TAU = Math.TAU || Math.PI*2;
+Math.PI2 = Math.PI2 || Math.PI/2;
 
 /**
  * Construct a pie menu
@@ -58,12 +62,6 @@ function WebPie( properties )
 
 	/** Y coordinate of cursor position within pie menu */
 	this.y = 0;
-
-	/** Radians per circle */
-	this.radiansPerCircle = Math.PI+Math.PI;
-
-	/** Half PI */
-	this.pi2 = Math.PI/2;
 
 	/** Array of WebPieIcon objects */
 	this.icons = [];
@@ -300,11 +298,11 @@ WebPie.prototype.draw = function()
 	// calculate positions and sizes
 	{
 		var circumference = Math.PI*(this.radius<<1),
-			pixelsPerRadian = this.radiansPerCircle/circumference,
+			pixelsPerRadian = Math.TAU/circumference,
 			centeredY = this.y-this.centerY,
 			centeredX = this.x-this.centerX,
 			cursorAngle = Math.atan2( centeredY, centeredX ),
-			cellSize = this.radiansPerCircle/numberOfIcons,
+			cellSize = Math.TAU/numberOfIcons,
 			closestAngle = 0,
 			weight = 0,
 			maxIconSize = .8*this.radius,
@@ -331,11 +329,11 @@ WebPie.prototype.draw = function()
 
 			// determine how close every icon is to the cursor
 			{
-				var closestDistance = this.radiansPerCircle,
+				var closestDistance = Math.TAU,
 					a = this.twist,
 					m = (maxIconSize*pixelsPerRadian)/cellSize;
 
-				maxWeight = this.pi2+Math.pow( Math.PI, m );
+				maxWeight = Math.PI2+Math.pow( Math.PI, m );
 
 				for( var n = 0; n < numberOfIcons; ++n )
 				{
@@ -353,11 +351,12 @@ WebPie.prototype.draw = function()
 						d *= f;
 
 					this.icons[n].weight =
-						this.pi2+Math.pow( Math.PI-d, m );
+						Math.PI2+Math.pow( Math.PI-d, m );
+
 					weight += this.icons[n].weight;
 
 					if( (a += cellSize) > Math.PI )
-						a -= this.radiansPerCircle;
+						a -= Math.TAU;
 				}
 
 				if( !cursorNearCenter )
@@ -498,8 +497,8 @@ WebPie.prototype.draw = function()
 		if( (this.radius += 2) > this.maxRadius )
 			this.radius = this.maxRadius;
 
-		if( (this.twist += .05) > this.radiansPerCircle )
-			this.twist -= this.radiansPerCircle;
+		if( (this.twist += .05) > Math.TAU )
+			this.twist -= Math.TAU;
 	}
 
 	var t = this;
@@ -521,9 +520,9 @@ WebPie.prototype.getAngleDifference = function( a, b )
 		d;
 
 	if( a > b )
-		d = a-(b+this.radiansPerCircle);
+		d = a-(b+Math.TAU);
 	else
-		d = a-(b-this.radiansPerCircle);
+		d = a-(b-Math.TAU);
 
 	if( Math.abs( c ) < Math.abs( d ) )
 		return c;
@@ -540,9 +539,9 @@ WebPie.prototype.getAngleDifference = function( a, b )
 WebPie.prototype.getValidAngle = function( a )
 {
 	if( a < -Math.PI )
-		a += this.radiansPerCircle;
+		a += Math.TAU;
 	else if( a > Math.PI )
-		a -= this.radiansPerCircle;
+		a -= Math.TAU;
 
 	return a;
 }
