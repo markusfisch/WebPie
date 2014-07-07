@@ -3,8 +3,6 @@ WebPie
 
 WebPie is a pie menu for web pages. Its appearance is very similar to
 [PieDock](https://github.com/markusfisch/PieDock).
-Image and animation quality do depend heavily on browser and operating
-system.
 
 How to use
 ----------
@@ -20,9 +18,8 @@ the &lt;head/&gt; element of your web page:
 Next you'll have to set up the menu, for example:
 
 	<script type="text/javascript">
-	<!--
 
-	var p = new WebPie( {
+	var wp = new WebPie( {
 		icons: [
 			new WebPieIcon(
 				"path/to/icon.png",
@@ -35,7 +32,6 @@ Next you'll have to set up the menu, for example:
 				function(){ alert( "Third" ); } )
 			] } );
 
-	p.create();
+	wp.create();
 
-	-->
 	</script>
